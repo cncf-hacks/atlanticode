@@ -1,0 +1,262 @@
+<main>
+  <div class="flex flex-row">
+    <div
+      class="md:w-1/3 w-0 bg-gray-50 shadow-lg border-2"
+      style="min-height: calc(100vh)"
+    >
+      <div class="mx-auto py-5 mr-3 flex flex-col items-center justify-center">
+        <a href="#" class="flex items-center mb-5">
+          <div class="shrink-0">
+            <img src="../../../assets/logo.png" class="h-7 w-7" alt="Logo" />
+          </div>
+          <span class="text-black text-3xl font-bold">Atlantis</span>
+        </a>
+
+        <div class="flex w-full flex-col px-4 mx-auto hide-on-phone">
+          <form class="b-form w-full" [formGroup]="testForm">
+            <tui-input
+              formControlName="testValue"
+              tuiTextfield
+              tuiTextfieldSize="l"
+              [(ngModel)]="searchInputValue"
+              (input)="searchByName($event)"
+            >
+              <div class="flex flex-row">
+                <div class="mr-3">
+                  <tui-svg src="tuiIconSearch"></tui-svg>
+                </div>
+                <div class="text-md">Search by name</div>
+              </div>
+            </tui-input>
+          </form>
+          <div class="w-full">
+            <p class="mt-5 text-xl mb-2 text-gray-500">Choose a type</p>
+            <form [formGroup]="form">
+              <tui-filter
+                formControlName="filters"
+                size="l"
+                [ngModel]="model$ | async"
+                (ngModelChange)="onModelChange($event)"
+                [items]="items"
+              ></tui-filter>
+            </form>
+            <div>
+              <p class="mt-5 mb-2 text-xl text-gray-500">
+                Number of downloads:
+              </p>
+              <tui-input-range
+                [formControl]="control"
+                [max]="maxRating"
+                [min]="minRating"
+                [quantum]="quantum"
+                (ngModelChange)="onPopularityQueryChange($event)"
+                [steps]="steps"
+              ></tui-input-range>
+            </div>
+            <p class="mt-5 text-xl mb-3 text-gray-500">
+              Last Upload of the model:
+            </p>
+
+            <tui-calendar
+              [value]="day"
+              class="bg-white rounded-lg shadow-sm mb-5"
+              (dayClick)="onDayClick($event)"
+            ></tui-calendar>
+            <button
+              appearance="primary"
+              tuiButton
+              type="button"
+              class="tui-space_right-3 tui-space_bottom-3"
+            >
+              Share cluster to peers
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="md:w-2/3 w-full bg-gray-100">
+      <div class="relative bg-gray-100 flex items-start justify-start flex-col">
+        <button
+          (click)="toggleMobileMenu()"
+          type="button"
+          class="p-2 ml-3 mt-3 w-10 h-10 text-white rounded-lg md:hidden focus:outline-none focus:ring-1 focus:ring-white"
+          aria-controls="mobile-menu"
+          [attr.aria-expanded]="mobileMenuOpen ? 'true' : 'false'"
+        >
+          <svg
+            *ngIf="!mobileMenuOpen"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4 6h16M4 12h16m-7 6h7"
+            />
+          </svg>
+          <svg
+            *ngIf="mobileMenuOpen"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+
+        <div
+          [class.hidden]="!mobileMenuOpen"
+          class="md:hidden flex flex-col"
+          id="mobile-menu"
+        >
+          <div class="flex flex-col px-4 mx-auto mt-10">
+            <form class="b-form w-full" [formGroup]="testForm">
+              <tui-input
+                formControlName="testValue"
+                tuiTextfield
+                tuiTextfieldSize="l"
+                [(ngModel)]="searchInputValue"
+                (input)="searchByName($event)"
+              >
+                <div class="flex flex-row">
+                  <div class="mr-3">
+                    <tui-svg src="tuiIconSearch"></tui-svg>
+                  </div>
+                  <div class="text-md">Search by name</div>
+                </div>
+              </tui-input>
+            </form>
+            <div class="w-full">
+              <p class="mt-10 text-xl text-gray-400">Choose a type</p>
+              <form [formGroup]="form">
+                <tui-filter
+                  formControlName="filters"
+                  size="l"
+                  [ngModel]="model$ | async"
+                  (ngModelChange)="onModelChange($event)"
+                  [items]="items"
+                ></tui-filter>
+              </form>
+              <div>
+                <p class="mt-10 text-xl text-white">Specify popularity specs</p>
+                <tui-input-range
+                  [formControl]="control"
+                  [max]="maxRating"
+                  [min]="minRating"
+                  [quantum]="quantum"
+                  (ngModelChange)="onPopularityQueryChange($event)"
+                  [steps]="steps"
+                ></tui-input-range>
+              </div>
+
+              <p class="mt-10 text-xl mb-3 text-gray-400">LastUpload before:</p>
+              <tui-calendar
+                class="flex items-center justify-center"
+                [value]="day"
+                (dayClick)="onDayClick($event)"
+              ></tui-calendar>
+              <button
+                appearance="primary"
+                tuiButton
+                type="button"
+                class="tui-space_right-3 tui-space_bottom-3"
+              >
+                Share cluster to peers
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <tui-pagination
+          class="mt-5"
+          [index]="index"
+          [length]="getNrOfPages()"
+          (indexChange)="goToPage($event)"
+        ></tui-pagination>
+        <div
+          *ngFor="let llm of paginatedLLMS"
+          class="mx-auto md:max-w-3xl max-w-sm flex justify-center"
+        >
+          <app-description-modal
+            [llmName]="llmName"
+            [llmDescription]="llmDescription"
+            [organizationName]="organizationName"
+            [isOpen]="isModalOpen"
+            (onClose)="handleModalClose()"
+          ></app-description-modal>
+          <div
+            class="m-10 p-4 w-full bg-white shadow-lg hover:bg-slate-200 rounded-lg border-2 flex flex-col md:flex-row items-center"
+          >
+            <div class="flex-1">
+              <div class="text-xl font-medium text-black mb-4">
+                {{ llm.name }}
+              </div>
+              <p class="text-sm text-gray-500 font-bold">
+                <tui-badge
+                  status="primary"
+                  value="Type"
+                  class="mr-1 mb-1 bg-blue-600"
+                ></tui-badge>
+                {{ llm.type }}
+              </p>
+
+              <p class="text-sm text-gray-500">
+                <tui-badge
+                  status="primary"
+                  value="Downloads"
+                  class="mr-1 mb-1 bg-blue-600"
+                ></tui-badge>
+                {{parse(llm.popularity)| tuiFormatNumber}}
+              </p>
+              <p class="text-sm text-gray-500 mb-1">
+                <tui-badge
+                  status="primary"
+                  value="Updated"
+                  class="mr-2"
+                ></tui-badge
+                >Last
+                {{ llm.lastUpdated }}
+              </p>
+              
+              <p class="text-sm text-gray-500">   <tui-badge
+                status="primary"
+                value="Number of parameters"
+                class="mr-2"
+              ></tui-badge
+              > {{ llm.nrOfParams }} </p>
+              <!-- <!-- <p class="text-sm text-gray-500"><tui-badge status="primary" value="Ethics Score" class="mr-2 mb-1 bg-blue-600"></tui-badge>
+                 {{ llm.ethicsScore }}
+              </p> -->
+
+              <!-- <p class="text-sm text-gray-500">Rating: {{ llm.rating }} / 5</p> -->
+            </div>
+            <div class="flex flex-col mt-5 md:mt-0">
+              <button
+                appearance="primary"
+                tuiButton
+                type="button"
+                class="tui-space_right-3 tui-space_bottom-3"
+                (click)="openDetailsModal(llm.name, llm.description)"
+              >
+                Start
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

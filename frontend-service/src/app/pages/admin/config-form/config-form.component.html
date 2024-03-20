@@ -1,0 +1,77 @@
+<div
+  class="h-screen bg-center bg-cover bg-gradient-to-b from-indigo-200 to-white"
+>
+  <app-navbar></app-navbar>
+
+  <div
+    class="max-w-screen-2xl mx-auto py-10 px-4 bg-white rounded-lg border-1 border-gray-400 shadow-lg flex justify-center flex-col items-center"
+  >
+    <div class="flex flex-col space-y-4">
+      <div class="flex items-start flex-col">
+        <h1 class="text-4xl font-bold mb-2 mt-6">Cofigure {{ llmId }}</h1>
+        <p class="mb-10 text-md">
+          Answer the following questions in order to customize the chosen AI
+          Model
+        </p>
+      </div>
+      <div class="w-full">
+        <h2 class="text-3xl font-semibold mb-6 mt-5">
+          Who is going to use the model?
+        </h2>
+        <p class="mb-4">
+          Short description of the target audience's education level and
+          ocupation
+        </p>
+        <div class="w-full">
+          <form class="b-form w-full" [formGroup]="testForm">
+            <tui-input
+              tuiTextfield
+              tuiTextfieldSize="l"
+              [(ngModel)]="targetValue"
+              (input)="specifyTarget($event)"
+            >
+              <div class="flex flex-row">
+                <div class="text-md">Target audience</div>
+              </div>
+            </tui-input>
+          </form>
+        </div>
+      </div>
+      <div class="w-full pb-10">
+        <h2 class="text-3xl font-semibold mb-6 mt-10">
+          What answer do you expect from the model?
+        </h2>
+        <p class="mb-4">
+          You can configure the model to answer in great detail about a
+          particular area of expertise.
+        </p>
+        <div class="w-full">
+          <form class="b-form w-full" [formGroup]="testForm">
+            <tui-input
+              tuiTextfield
+              tuiTextfieldSize="l"
+              [(ngModel)]="searchInputValue"
+              (input)="specifySpeciality($event)"
+            >
+              <div class="flex flex-row">
+                <div class="text-md">Area of speciality</div>
+              </div>
+            </tui-input>
+          </form>
+        </div>
+      </div>
+
+      <div class="flex justify-start">
+        <button
+          appearance="primary"
+          tuiButton
+          type="button"
+          class="mb-4 mt-4"
+          (click)="navigateToLinkGenerator()"
+        >
+          Save configurations
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,159 @@
+<main>
+  <section class="w-full bg-black ">
+    <div
+      class="relative flex content-center items-center justify-center overflow-hidden "
+    >
+      <div class="w-full bg-center bg-cover bg-gradient-to-r">
+        <div class="absolute top-0 w-full">
+          <app-navbar></app-navbar>
+        </div>
+
+        <div
+          class="relative md:mt-24 mt-72 pb-32 flex content-center items-center justify-center"
+          [style.min-height]="'120vh'"
+        >
+          <div
+            class="absolute top-0 w-full h-full bg-center bg-cover"
+            [style.background-image]="
+              'url(\'/assets/landing/LandingLogo.png\')'
+            "
+          >
+            <span
+              id="blackOverlay"
+              class="w-full h-full absolute opacity-85 bg-black"
+            ></span>
+          </div>
+          <div class="container relative mx-auto">
+            <div class="items-center flex flex-wrap">
+              <div class="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
+                <div class=" flex flex-col items-center ">
+                  <h1 class="text-white font-semibold text-5xl mb-8">
+                    Acces large language models, anywhere, on any machine
+                  </h1>
+
+                  <div class="mx-auto text-center pt-30 text-3xl">
+                    <button
+                    appearance="primary"
+                    tuiButton
+                    type="button"
+                    class="tui-space_right-3 tui-space_bottom-3"
+                    (click)="navigateToRegister()"
+                >
+                   Start
+                </button>
+
+                  </div>
+                  <p class="mt-4 text-xl text-gray-400">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pb-20 bg-center bg-cover bg-gradient-to-b from-black to-indigo-900 ">
+    <div class="container mx-auto px-4 ">
+      <div class="flex flex-wrap items-center justify-center pt-24">
+        <span class="text-3xl font-bold text-white">Features</span>
+
+      </div>
+      <div class="flex flex-wrap items-center justify-center mt-24 text-white">
+   
+
+        <div class="space-y-16">
+          <div class="flex items-start">
+            <div class="shrink-0">
+              <!-- <img
+                src="../../../assets/png/landing/User_box.png"
+                class="h-6 w-6 mt-1.5 text-blue-600"
+              /> -->
+            </div>
+            <div class="ml-4">
+              <h3 class="text-2xl font-bold text-white pb-3 ">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </h3>
+              <p class="mt-2 text-gray-400">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start">
+            <div class="shrink-0">
+              <!-- <img
+                src="../../../assets/png/landing/Chield_check.png"
+                class="h-6 w-6 mt-1.5 text-blue-600"
+              /> -->
+            </div>
+            <div class="ml-4">
+              <h3 class="text-2xl font-bold text-white pb-3">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </h3>
+              <p class="mt-2 text-gray-400">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start">
+            <div class="shrink-0">
+              <!-- <img
+                src="../../../assets/png/landing/Money_light.png"
+                class="h-6 w-6 mt-1.5 text-blue-800"
+              /> -->
+            </div>
+            <div class="ml-4">
+              <h3 class="text-2xl font-bold text-white pb-3">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </h3>
+              <p class="mt-2 text-gray-400">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-center bg-cover bg-gradient-to-b from-indigo-900 to-black text-white text-center py-48">
+    <div class="container mx-auto px-4">
+      <h1
+        class="text-3xl md:text-5xl font-bold mb-6 leading-snug px-16 md:px-36"
+      >
+
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </h1>
+      <p class="text-xl md:text-2xl max-w-2xl mx-auto">
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+    </div>
+  </section>
+  <footer class="bg-black text-white py-10">
+    <div class="mx-auto px-4 mt-10">
+      <div class="border-t border-white w-full py-4"></div>
+
+      <div class="flex justify-between items-center w-full">
+        <div class="shrink-0">
+          <img
+            src="../../../assets/logo.png"
+            class="h-7 w-7 text-blue-600"
+          />
+        </div>
+
+        <span>© Atlantis. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+</main>
+<style>
+  /* For Webkit (Chrome, Safari, etc.) */
+  div::-webkit-scrollbar {
+    display: none;
+  }
+</style>

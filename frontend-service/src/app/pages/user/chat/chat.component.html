@@ -1,0 +1,122 @@
+<main>
+  <div class="w-full bg-gray-900" style="min-height: calc(100vh)">
+    <div
+      class="relative flex content-center items-center justify-center overflow-hidden"
+    >
+      <div class="w-full bg-center bg-cover">
+        <app-navbar></app-navbar>
+
+        <section
+          class="max-w-screen-4xl flex items-center flex-col justify-center mx-auto md:px-4 border-0.5 border-t border-b border-white bg-gray-800"
+          style="min-height: calc(80vh)"
+        >
+          <div
+            class="flex flex-col items-center justify-center fixed bottom-16"
+          >
+            <div
+              class="flex justify-center flex-col items-center mt-10"
+              style="
+                max-height: calc(70vh);
+                overflow-y: auto;
+                max-width: calc(83vw);
+              "
+            >
+              <ng-container *ngIf="messages.length > 0; else noMessages">
+                <div
+                  *ngFor="let message of messages"
+                  style="width: calc(83vw)"
+                  [ngClass]="{
+                    'user-message': message.role === 'user',
+                    'assistant-message': message.role === 'assistant'
+                  }"
+                >
+                  <div *ngIf="message.role === 'user'; else otherRole">
+                    <div class="flex-row gap-2 flex justify-end">
+                      <div class="shrink-0 mt-1">
+                        <img
+                          src="../../../assets/defaultUser.png"
+                          class="h-6 w-6 text-blue-600 bg-gray-300 rounded-full"
+                        />
+                      </div>
+                      <span
+                        [style.color]="userName ? 'white' : 'gray'"
+                        class="text-xl"
+                        >{{ userName || "User" }}</span
+                      >
+                    </div>
+                    <div class="text-white text-md flex justify-end">
+                      {{ message.content }}
+                    </div>
+                  </div>
+
+                  <ng-template #otherRole>
+                    <div class="flex flex-row justify-start gap-2">
+                      <div class="shrink-0 mt-1">
+                        <img
+                          src="../../../assets/logo.png"
+                          class="h-6 w-6 text-blue-600"
+                        />
+                      </div>
+                      <div class="text-xl text-gray-300">A.I Assistant</div>
+                    </div>
+                    <div class="text-white text-md flex justify-start w-full">
+                      {{ message.content }}
+                    </div>
+                  </ng-template>
+                </div>
+              </ng-container>
+              <ng-template #noMessages style="min-width: calc(83vw)">
+                <div class="text-white text-md text-center border-2 rounded-xl mb-10 p-24" >
+                  <tui-svg src="tuiIconShieldLarge" class="mb-1"></tui-svg>
+                  This chat is running in a secure computing enviroment. Any message you send is encrypted end-to-end, meaning 
+                </div>
+              </ng-template>
+            </div>
+            <div
+              class="flex rounded-md mx-auto justify-between"
+              style="min-width: calc(83vw)"
+            >
+              <div
+                class="w-full flex flex-row shadow-sm rounded-l-2xl border-y-2 border-l-2"
+              >
+                <input
+                  type="text"
+                  class="bg-gray-800 ml-7 text-xl text-white w-full outline-none"
+                  placeholder="Ask a question.."
+                  [(ngModel)]="newMessage"
+                  (keyup.enter)="addMessage()"
+                />
+              </div>
+              <div class="border-y-2 border-r-2 rounded-e-2xl p-2">
+                <button
+                  class="text-white font-semibold rounded-md hover:shadow-sm  mr-16 md:mr-8 " style="max-width: calc(3vw); max-height: calc(4vh);"
+                  appearance="primary"
+                  tuiButton
+                  (click)="addMessage()"
+                >
+                  <tui-svg src="tuiIconArrowUpLarge"> </tui-svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="flex justify-between items-center mt-5">
+          <div class="shrink-0">
+            <img src="../../../assets/logo.png" class="h-4 w-4 text-blue-600" />
+          </div>
+
+          <span class="text-white text-xs"
+            > Atlantis.</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<style>
+  /* For Webkit (Chrome, Safari, etc.) */
+  div::-webkit-scrollbar {
+    display: none;
+  }
+</style>
