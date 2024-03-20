@@ -1,0 +1,21 @@
+[workspace]
+resolver = "2"
+members = [
+    "lib/armv9a",
+    "lib/cca-token",
+    "lib/cose",
+    "lib/vmsa",
+    "lib/rsi-el0",
+    "lib/uart",
+    "plat/fvp",
+    "realm/rsi-test",
+    "rmm/",
+    "sdk",
+]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+lto = true
+panic = "abort"

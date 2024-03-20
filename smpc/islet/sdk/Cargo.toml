@@ -1,0 +1,21 @@
+[package]
+name = "islet_sdk"
+version = "0.1.0"
+authors = ["Islet Contributors"]
+edition = "2021"
+
+[lib]
+crate-type = ["rlib", "staticlib"]
+
+[build-dependencies]
+cbindgen = "0.24.0"
+
+[dependencies]
+bincode = "1.0"
+cca_token = { path = "../lib/cca-token" }
+cfg-if = "1.0"
+cose = { path = "../lib/cose" }
+hex = "*"
+openssl = "0.10.60"
+rsi_el0 = { path = "../lib/rsi-el0" }
+serde = { version = "1.0", features = ["derive"] }

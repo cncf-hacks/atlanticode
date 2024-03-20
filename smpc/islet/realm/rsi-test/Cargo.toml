@@ -1,0 +1,9 @@
+[package]
+name = "rsi-test"
+version = "0.0.1"
+authors = ["Islet Contributors"]
+edition = "2021"
+
+[[bin]]
+name = "rsi-test"
+path = "src/main.rs"

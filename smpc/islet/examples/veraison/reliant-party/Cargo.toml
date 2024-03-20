@@ -1,0 +1,20 @@
+[workspace]
+
+[package]
+name = "reliant-party"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = {version = "*", features = ["derive"]}
+chrono = "*"
+env_logger ="*"
+hex = "*"
+log = "*"
+tinyvec = "*"
+rust-rsi = { git = "https://github.com/islet-project/remote-attestation" }
+ratls = { git = "https://github.com/islet-project/remote-attestation" }
+realm-verifier = { git = "https://github.com/islet-project/remote-attestation" }
+veraison-verifier = { git = "https://github.com/islet-project/remote-attestation" }

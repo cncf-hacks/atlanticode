@@ -1,0 +1,18 @@
+[workspace]
+
+[package]
+name = "realm-application"
+version = "0.1.0"
+edition = "2021"
+authors = [ "Islet Contributors" ]
+description = "Realm application for the remote attestation"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = { version = "*", features = ["derive"] }
+rust-rsi = { git = "https://github.com/islet-project/remote-attestation" }
+ratls = { git = "https://github.com/islet-project/remote-attestation" }
+
+[profile.release]
+strip = true

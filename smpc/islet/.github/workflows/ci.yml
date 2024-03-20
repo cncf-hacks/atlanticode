@@ -1,0 +1,206 @@
+name: islet-ci
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+# FIXME: Failed because of space limitation
+#  linux-cca:
+#  runs-on: ubuntu-22.04
+#  steps:
+#    - uses: actions/checkout@v3
+#      with:
+#        submodules: true
+#
+#    - name: Install dependencies
+#      run: ./scripts/init.sh
+#
+#    - name: Build linux cca components
+#      run: ./scripts/fvp-cca -bo -nw=linux -rm=linux -rmm=tf-rmm
+
+# FIXME: Failed on CI
+#  aosp:
+#    runs-on: ubuntu-22.04
+#    steps:
+#      - uses: actions/checkout@v3
+#        with:
+#          submodules: true
+#
+#      - name: Install dependencies
+#        run: ./scripts/init.sh
+#
+#      - name: Build AOSP components
+#        run: ./scripts/fvp-cca -bo -nw=aosp -rmm=tf-rmm
+
+  acs:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: ./scripts/init_min_acs.sh
+
+      - name: Test ACS
+        run: ./scripts/tests/acs.sh
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: acs
+          path: out/uart*.log
+
+  hes:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: ./scripts/init_min_tf_a_rss.sh
+
+      - name: Build HES
+        run: ./scripts/fvp-cca -nw=tf-a-tests -rmm=tf-rmm --hes --build-only 
+
+  tf-a-tests:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: ./scripts/init_min_tf_a.sh
+
+      - name: Run tf-a-tests on normal-world
+        run: ./scripts/tests/tf-a-tests.sh
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: tf-a-tests
+          path: out/uart*.log
+
+  realm-boot:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: ./scripts/init_min.sh
+
+      - name: Run realm-linux booting
+        run: ./scripts/tests/realm-boot.sh
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: realm-boot
+          path: out/uart*.log
+
+  crates:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        ./scripts/deps/rust.sh
+        ./scripts/deps/docker.sh
+        ./scripts/deps/cross.sh
+
+    - name: Run crates test (aarch64)
+      run: ./scripts/tests/crates.sh
+
+  rule-checker:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        ./scripts/deps/assets.sh
+        ./scripts/deps/rust.sh
+        ./scripts/deps/pkgs.sh
+
+    - name: Check bash scripts coding-style
+      run: |
+        ./assets/formatter/shfmt -d -ci -bn -fn `find scripts/. -name *.sh`
+        ./assets/formatter/shfmt -d -ci -bn -fn `find examples/cross-platform-e2ee/. -name *.sh`
+
+    - name: Check local packages and all of its dependencies for errors
+      run: >
+        cargo check --workspace 
+        --exclude islet_sdk --exclude rsi_el0
+        --exclude cose --exclude cca_token
+
+    - name: Check rust coding-style
+      run: |
+        cd rmm && cargo fmt -- --check && cd -
+        cd plat/fvp && cargo fmt -- --check
+
+    - name: Check clippy lints
+      run: ./scripts/clippy.sh
+
+    - name: Check pylint
+      run: ./scripts/pylint.sh
+
+    - uses: actions-rs/audit-check@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+  sdk:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        ./scripts/deps/assets.sh
+        ./scripts/deps/rust.sh
+
+    - name: Run sdk build (x86_64)
+      working-directory: sdk
+      run: make simulated
+
+    - name: Run sdk c_examples (x86_64)
+      working-directory: sdk
+      run: make run-simulated-c
+
+    - name: Run sdk examples (x86_64)
+      working-directory: sdk
+      run: make run-simulated
+
+    - name: Run sdk test (x86_64)
+      working-directory: sdk
+      run: make test
+
+    - name: Run sdk build (aarch64)
+      working-directory: sdk
+      run: make sdk
+
+  cli:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        ./scripts/deps/assets.sh
+        ./scripts/deps/rust.sh
+
+    - name: Run cli build (x86_64, aarch64)
+      working-directory: cli
+      run: make
+
+  rust-unsafe-analysis:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: ./scripts/init-unsafe-analysis.sh
+
+    - name: Run unsafe analyzer
+      run: ./scripts/unsafe-analyzer
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: tools
+        path: out/unsafe-analysis.log
