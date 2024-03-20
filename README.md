@@ -24,3 +24,9 @@ Atlantis offers top of the line security features to ensure that your data is sa
 
 Leveraging [Constellation](https://github.com/edgelesssys/constellation), Atlantis is able to provide a secure and private environment for your application. This means that your data is never shared with anyone, including the party hosting the application. 
 
+# Used Resources
+- https://arxiv.org/pdf/2303.10837.pdf
+- https://ieeexplore.ieee.org/document/9411833
+- https://huggingface.co/datasets/nampdn-ai/tiny-lessons
+- https://arxiv.org/abs/2003.14053
+- https://www.usenix.org/system/files/sec20summer_fang_prepub.pdf
