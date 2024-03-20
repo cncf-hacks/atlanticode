@@ -1,68 +1,39 @@
-<p align="center"><img src="https://github.com/islet-project/islet/blob/main/doc/res/logo-title.jpg?raw=true" height="100px"></p>
+# Islet Fork for Atlanticode
 
-Islet is an open-source software project written in Rust that enables confidential computing
-on ARM architecture devices using the ARMv9 CCA.
-The primary objective of Islet is to enable on-device confidential computing
-and protect user privacy on end user devices.
+This repository contains a fork of the opensource [Islet project](https://github.com/dkales/islet) that has been modified to work with the Atlanticode application. Islet is a framework for building confidential computing applications using Intel SGX and ARM TrustZone with great contributions to the confidential computing space.
 
-While current confidential computing solutions mainly focus on server-side
-protection,  it is equally important to safeguard user information at the user
-device level  since that is where private data collection initially occurs.
-Furthermore, as more and more users rely on privacy apps such as private
-messengers,  secure emails, password managers, and web browsers with privacy
-settings,  there is a growing need to ensure privacy on user devices.
-Islet, an open-source project, addresses this need by providing a platform
- for ARM-based confidential computing.
+## Modifications
 
-Enabling CC on user devices will not only establish end-to-end CC throughout
-the entire data processing path,
-but it will also help create a secure computation model
-that enables processing of user private data on the user device
-using the same components that previously were employed at the server side
-without disclosing business logic.
-Furthermore, on-device confidential computing will be a key enabler for
-machine-to-machine computing without the need for server intervention
+The following modifications have been made to the Islet codebase to integrate it with Atlanticode:
 
-## Feature Overview
-- Realm Management Monitor
-- Hardware Enforced Security
-- Confidential Computing API Standardization
-- Use case : Confidential Machine Learning
+1.⁠ ⁠*Exception Handler Fix*: The exception handler has been updated to store and resume additional registers, including NEON registers, to prevent context loss during exception handling. This fix ensures proper execution resumption after exceptions occur.
 
-## Overall Architecture
+2.⁠ ⁠*Page Table Updates*: Page table updates have been accompanied by the necessary TLB and cache invalidation operations to maintain consistency and avoid potential issues.
 
-Islet provides a platform for running virtual machines (VMs)
-confidentially, with standard SDKs for easy integration with other confidential
-computing frameworks at upper layers.
-The platform consists of two key components:
-the Islet Realm Management Monitor (Islet-RMM) and Islet Hardware Enforced Security (Islet-HES).
+3.⁠ ⁠*Dependency Updates*: The ⁠ half ⁠ crate dependency has been updated to support NEON instructions. However, to minimize the cost of storing NEON context during exception handling, the usage of NEON instructions has been limited to only the required operations, and exceptions are prevented during those operations.
 
-- `Islet RMM` operates at EL2 in the Realm world on the application processor cores
-and manages the confidential VMs, known as realms.
-- On the other hand, `Islet HES` performs device boot measurement, generates
-platform attestation reports, and manages sealing key functionality within a secure
-hardware IP apart from the main application processor.
+4.⁠ ⁠*DABT Handling*: In the case of DABT (Data Abort) exceptions with page faults taken from the same exception level (EL2 in Realm World), the ⁠ ELR_EL2 ⁠ register is not incremented for execution resume. Instead, the instruction that caused the failure is executed again.
 
-![islet-overview](doc/res/overview.png)
+## Usage
+Go into the docker terminal, uncompress the attached data.zip, and copy the uncompressed files to `/islet/examples/confidential-ml/certifier-data/` (overwrite)
+Edit `/islet/third-party/certifier/src/cc_helpers.c` as follows.
+```
+void secure_authenticated_channel::server_channel_accept_and_auth(
+      void (*func)(secure_authenticated_channel&)) {
+    // accept and carry out auth
++  SSL_CTX_set_verify(SSL_get_SSL_CTX(ssl_), SSL_VERIFY_PEER, NULL);
+    int res = SSL_accept(ssl_);
+}
+```
 
-In designing Islet, we aim to to address the current security challenges in confidential
-computing technologies right from the very beginning.
-To ensure that our software is built with safety in mind, we have chosen to use the
-Rust programming language, known for its unique security model that ensures memory
-safety and concurrency safety.
-Moving forward, we also plan to incorporate formal
-verification techniques to further enhance the security of our design and implementation.
+## Acknowledgements
 
-For more information, please visit our [developer site](https://islet-project.github.io/islet/).
+We would like to express our gratitude to the Islet project and its contributors for their excellent work in the field of confidential computing. Their efforts have provided a solid foundation for building secure and privacy-preserving applications.
 
-## A demo video (Confidential ML)
+## License
 
-![this page](https://github.com/islet-project/islet/raw/main/examples/confidential-ml/video/confidential_ml.gif)
+This fork of Islet is released under the same license as the original Islet project. Please refer to the [Islet License](https://github.com/dkales/islet/blob/main/LICENSE) for more information.
 
-- This video shows how Islet achieves an end-to-end confidential machine learning with a chat-bot scenario.
-- This video flows as follows.
-  1. It starts with a slide that describes all components involved in this demo. All components will run on confidential computing platforms.
-  2. (*feed an ML model*) The model provider feeds the ML model into the ML server. This is done through a secure channel established with the aid of the certifier framework.
-  3. (*run a coding assistant*) A mobile device user asks a chat-bot application that runs on Islet for generating a function. And then, that request is passed on to the ML server through a secure channel. Finally, the user can see the result (i.e., function).
-  4. (*launch a malicious server*) This time, we launch a malicious server to show a failure case. When it attempts to join the certifier service (on the right side of the screen), it will not pass authentication as it results in a different measurement. Therefore, the malicious server cannot interact with the mobile device user in the first place.
-- To download this video, click [here](https://github.com/islet-project/islet/raw/main/examples/confidential-ml/video/confidential_ml.mp4).
+## Contact
+
+If you have any questions, issues, or suggestions regarding this fork of Islet or its integration with Atlanticode, please contact our team at [support@atlanticode.dev](mailto:support@atlanticode.dev).
